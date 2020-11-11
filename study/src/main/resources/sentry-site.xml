@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+
+<configuration>
+	<property>
+		<name>sentry.service.client.server.rpc-address</name>  
+		<value>192.168.106.130</value>
+    </property>
+	<property>
+		<name>sentry.service.client.server.rpc-port</name>  
+		<value>8038</value>
+    </property>
+	
+	<property>
+     <name>sentry.service.client.server.rpc-connection-timeout</name>  
+     <value>200000</value>
+    </property>
+	
+	<property>
+       <name>sentry.service.security.mode</name>  
+       <value>none</value>
+     </property> 
+	 
+     <property>
+       <name>sentry.service.server.principal</name>  
+       <value></value>
+     </property>  
+	 
+     <property>
+       <name>sentry.service.server.keytab</name>  
+       <value></value>
+     </property>  
+	 
+     <property>
+       <name>sentry.provider</name>  
+       <value>org.apache.sentry.provider.file.HadoopGroupResourceAuthorizationProvider</value>
+     </property> 
+	 
+     <property>
+       <name>sentry.hive.provider.backend</name>  
+       <value>org.apache.sentry.provider.db.SimpleDBProviderBackend</value>
+     </property> 
+	 
+     <property>
+       <name>sentry.metastore.service.users</name>  
+       <value>hive</value>  
+       <!--queries made by hive user (beeline) skip meta store check-->
+     </property>  
+	 
+     <property>
+       <name>sentry.hive.server</name>  
+       <value>node1</value>
+     </property>  
+	 
+     <property>
+       <name>sentry.hive.testing.mode</name>  
+       <value>true</value>
+     </property>
+
+</configuration>
