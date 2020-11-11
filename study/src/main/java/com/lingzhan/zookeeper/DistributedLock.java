@@ -85,26 +85,29 @@ public class DistributedLock implements Lock, Watcher {
             List<String> allNodes = zooKeeper.getChildren(parentPath, false);
             // 对子节点排序
             Collections.sort(allNodes);
+            // 当前节点名称
             String nodeName = currentPath.substring((parentPath + "/").length());
             // 子节点中最小的,等于创建的当前新路径
             if (allNodes.get(0).equals(nodeName)) {
                 System.out.println(Thread.currentThread().getName() + "tryLock 成功! ");
                 return true;
             } else {
-                // 注册watch监听路径
+                // 注册watch监听路径,节点名称最小的
                 String targetNodeName = parentPath + "/" + allNodes.get(0);
-
-                for (String node:allNodes){
-                    if (nodeName.equals(node)){
+                // 遍历路径下节点
+                for (String node : allNodes) {
+                    // 与当前节点相同,就退出循环,所以最后targetNodeName就是当前节点的前一个节点
+                    if (nodeName.equals(node)) {
                         break;
-                    }else {
-                        targetNodeName=node;
+                    } else {
+                        targetNodeName = node;
                     }
                 }
-                targetNodeName=parentPath + "/" + targetNodeName;
+                targetNodeName = parentPath + "/" + targetNodeName;
 
                 System.out.println(Thread.currentThread().getName() + "需要等待删除节点" + targetNodeName);
 
+                // 保证了当前节点只是监控前一个节点删除,而不是监听最小的节点
                 zooKeeper.exists(targetNodeName, new Watcher() {
                     @Override
                     public void process(WatchedEvent event) {
@@ -117,7 +120,8 @@ public class DistributedLock implements Lock, Watcher {
                                 currentPath.notify();
                             }
 
-                            System.out.println(Thread.currentThread().getName() + "获取到NodeDeleted通知,请重新尝试获取锁!");
+                            System.out.println(
+                                Thread.currentThread().getName() + "获取到NodeDeleted通知,请重新尝试获取锁!");
 
                         }
 
@@ -125,8 +129,6 @@ public class DistributedLock implements Lock, Watcher {
                 });
 
             }
-
-
         } catch (KeeperException | InterruptedException e) {
             e.printStackTrace();
         }

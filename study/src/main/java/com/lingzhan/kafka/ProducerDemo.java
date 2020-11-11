@@ -31,11 +31,12 @@ import java.util.concurrent.Future;
 @Slf4j
 public class ProducerDemo {
 
-    static private final String TOPIC = "test";
+    static private final String TOPIC = "testKafka";
 
-    static private final String ZOOKEEPER = "localnode2:2181";
+    static private final String ZOOKEEPER = "node1:2181/kafka2.2.1";
 
-    static private final String BROKER_LIST = "localnode2:9094";
+    static private final String BROKER_LIST = "node1:9092";
+    static private final String EXTERNAL_BROKER_LIST ="192.168.11.10:9093";
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -50,12 +51,12 @@ public class ProducerDemo {
 
     private static KafkaProducer<String, String> initProducer() {
 
-        System.setProperty("java.security.auth.login.config", "C:\\resources\\workspace\\tiangou\\flink_analysis\\flink_study\\src\\main\\resources\\kafka_jass.conf");
+        //System.setProperty("java.security.auth.login.config", "C:\\resources\\workspace\\learning_project\\study\\src\\main\\resources\\kafka_admin_jass.conf");
 
         Properties props = new Properties();
 
         //必备属性
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER_LIST);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, EXTERNAL_BROKER_LIST);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
@@ -67,6 +68,8 @@ public class ProducerDemo {
         props.put("queue.buffering.max.messages", "1000000");
         props.put("queue.enqueue.timeout.ms", "20000000");
         props.put(ProducerConfig.LINGER_MS_CONFIG,"2");
+
+        props.put("sasl.jaas.config","org.apache.kafka.common.security.scram.ScramLoginModule required username=\"lily\" password=\"lily123456\";");
         props.put("security.protocol", "SASL_PLAINTEXT");
         props.put("sasl.mechanism", "SCRAM-SHA-256");
 

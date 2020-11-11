@@ -10,6 +10,9 @@
     <version>1.0.0</version>
     <modules>
         <module>study</module>
+        <module>info_service</module>
+        <module>flink_streaming</module>
+        <module>elastic</module>
     </modules>
 
 
