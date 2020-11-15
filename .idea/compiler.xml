@@ -7,10 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="elastic" />
-        <module name="flink_streaming" />
         <module name="info_service" />
+        <module name="elastic" />
         <module name="study" />
+        <module name="flink_streaming" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
